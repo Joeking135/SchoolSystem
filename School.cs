@@ -103,7 +103,7 @@ namespace NewSchoolSystem
                 case 5:
 
                     Staff.RoleType role = GetStaffRole();
-                    filteredList = new List<T>(members.Values.OfType<Staff>().Where(e => e.Role == role).Cast<T>()); //NOT WORKING CURRENTLY
+                    filteredList = new List<T>(members.Values.OfType<Staff>().Where(e => e.Role == role).Cast<T>()); 
 
                     break;
                 
