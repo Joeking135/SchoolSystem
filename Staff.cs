@@ -17,7 +17,7 @@ namespace NewSchoolSystem
             Assistant
         }
 
-        private RoleType Role {get; set;}
+        public RoleType Role {get; private set;}
 
         public Staff(int id, Tuple<string, string> name, GenderType gender, DateTime dob, RoleType role)
         {

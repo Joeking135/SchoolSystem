@@ -59,6 +59,10 @@ namespace NewSchoolSystem
                 "Gender",
                 "Age"
             };
+            if (typeof(T) == typeof(Staff))
+            {
+                lookupOptions.Add("Role");
+            }
 
 
             int lookupOption = Program.DisplayMenu(lookupOptions.ToArray(), "LOOKUP OPTIONS");
@@ -84,7 +88,7 @@ namespace NewSchoolSystem
                 case 3:
                     GenderType gender = Program.GetUserInput<GenderType>
                     (
-                        input => (int)input < 0 || (int)input >= Enum.GetNames(typeof(GenderType)).Count(),
+                        input => (int)input < 0 || (int)input >= Enum.GetNames(typeof(GenderType)).Length,
                         "Input Gender (Male, Female, Undefined): ",
                         "Invalid Gender."
                     );
@@ -95,6 +99,12 @@ namespace NewSchoolSystem
                 case 4:
                     int age = Program.GetUserInput<int>(input => input < 0, "Input Age: ", "Invalid Age.");
                     filteredList = members.Values.OfType<T>().Where(e => e.Age == age).ToList();
+                    break;
+                case 5:
+
+                    Staff.RoleType role = GetStaffRole();
+                    filteredList = new List<T>(members.Values.OfType<Staff>().Where(e => e.Role == role).Cast<T>()); //NOT WORKING CURRENTLY
+
                     break;
                 
                                     
@@ -121,6 +131,22 @@ namespace NewSchoolSystem
 
             return Tuple.Create(firstName, lastName);
  
+        }
+
+        private static Staff.RoleType GetStaffRole()
+        {
+            string[] roles = Enum.GetNames(typeof(Staff.RoleType));
+
+            for (int i = 0; i < roles.Length; i++)
+            {
+                Console.WriteLine($"{i}. {roles[i]}"); 
+            }
+
+            return Program.GetUserInput<Staff.RoleType>(
+                input => (int)input < 0 || (int)input >= roles.Length,
+                "Input Role: ",
+                "Invalid role."
+            ); 
         }
 
 
@@ -227,7 +253,6 @@ namespace NewSchoolSystem
 
                 student.Attendance = (registerEntry == '/') ? Student.Register.Present : Student.Register.Absent;
             }
-            Console.WriteLine("Register Complete.");
         }
 
         public void SaveRegister()
@@ -243,7 +268,6 @@ namespace NewSchoolSystem
             }
 
             file.Close();
-            Console.WriteLine("Register Saved.");
         }
         public void Save()
         {
