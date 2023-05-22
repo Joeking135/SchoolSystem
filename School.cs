@@ -111,16 +111,25 @@ namespace NewSchoolSystem
 
             }
 
-            filteredList.OrderBy(e => e.ID);
 
-            Console.Clear();
-            Console.WriteLine("FILTERED RESULTS" + "\n" + new string('=', 20));
-            foreach (T user in filteredList)
+            if (filteredList.Count() > 0)
             {
-                Console.WriteLine(new string('-', 10));
-                user.Display();
-                Console.WriteLine(new string('-', 10));
-            } 
+                filteredList.OrderBy(e => e.ID);
+
+                Console.Clear();
+                Console.WriteLine("FILTERED RESULTS" + "\n" + new string('=', 20));
+                foreach (T user in filteredList)
+                {
+                    Console.WriteLine(new string('-', 10));
+                    user.Display();
+                    Console.WriteLine(new string('-', 10));
+                }   
+            }
+            else
+            {
+                Console.WriteLine("There are no members under these filters.");
+            }
+             
 
         }
 
