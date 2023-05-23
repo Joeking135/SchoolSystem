@@ -72,20 +72,20 @@ namespace NewSchoolSystem
             switch (lookupOption)
             {
 
-                case 1:
+                case 1: //Search ID
 
                     int id = Program.GetUserInput<int>(input => input < 0, "Input ID to Search: ", "Invalid ID");
 
                     filteredList = members.Values.OfType<T>().Where(e => e.ID == id).ToList();
                     break;
                         
-                case 2:
+                case 2: //Search Name
                     Tuple<string, string> name = GetNameTuple(); 
 
                     filteredList = members.Values.OfType<T>().Where(e => e.Name.Item1 == name.Item1 && e.Name.Item2 == name.Item2).ToList();
                     break;
                 
-                case 3:
+                case 3: //Search Gender type
                     GenderType gender = Program.GetUserInput<GenderType>
                     (
                         input => (int)input < 0 || (int)input >= Enum.GetNames(typeof(GenderType)).Length,
@@ -96,11 +96,11 @@ namespace NewSchoolSystem
                     filteredList = members.Values.OfType<T>().Where(e => e.Gender == gender).ToList();
                     break;
 
-                case 4:
+                case 4: //Search Age
                     int age = Program.GetUserInput<int>(input => input < 0, "Input Age: ", "Invalid Age.");
                     filteredList = members.Values.OfType<T>().Where(e => e.Age == age).ToList();
                     break;
-                case 5:
+                case 5: //Search Role (Staff Only)
 
                     Staff.RoleType role = GetStaffRole();
                     filteredList = new List<T>(members.Values.OfType<Staff>().Where(e => e.Role == role).Cast<T>()); 
@@ -112,7 +112,7 @@ namespace NewSchoolSystem
             }
 
 
-            if (filteredList.Count() > 0)
+            if (filteredList.Count() > 0) //Display filtered list 
             {
                 filteredList.OrderBy(e => e.ID);
 
@@ -133,7 +133,8 @@ namespace NewSchoolSystem
 
         }
 
-        private static Tuple<string, string> GetNameTuple()
+        
+        private static Tuple<string, string> GetNameTuple() //Asks user for first and last name, and returns Tuple<string, string>
         {
             string firstName = Program.GetUserInput<string>(input => input == "", "Input First Name: ", "Invalid First Name.");
             string lastName = Program.GetUserInput<string>(input => input == "", "Input Last Name: ", "Invalid Last Name.");
@@ -142,7 +143,7 @@ namespace NewSchoolSystem
  
         }
 
-        private static Staff.RoleType GetStaffRole()
+        private static Staff.RoleType GetStaffRole() //Displays roles and returns selected role
         {
             string[] roles = Enum.GetNames(typeof(Staff.RoleType));
 
@@ -159,7 +160,7 @@ namespace NewSchoolSystem
         }
 
 
-        public void AddMember<T>() where T : SchoolMember
+        public void AddMember<T>() where T : SchoolMember //Adds a member of type (T) to the list "members".
         {
             Console.Clear();
             int id = Program.GetUserInput<int>(input => input < 0 || members.ContainsKey(input), "Input ID: ", "Invalid ID.");
@@ -204,7 +205,7 @@ namespace NewSchoolSystem
             
         }
     
-        public void RemoveMember<T>() 
+        public void RemoveMember<T>() //removed member of type (T) from members, at a given ID.
         {
             while (true)
             {
@@ -238,11 +239,11 @@ namespace NewSchoolSystem
             
         }
 
-        public T GetMember<T>() where T : SchoolMember
+        public T GetMember<T>() where T : SchoolMember //Gets a user from members.
         {
             int id = Program.GetUserInput<int>
             (
-                input => input < 0 || !members.ContainsKey(input),
+                input => input < 0 || !members.ContainsKey(input) || typeof(T) != members[input].GetType(),
                 "Input ID: ",
                 "Invalid ID."
             );
