@@ -167,10 +167,17 @@ namespace NewSchoolSystem
 
             Tuple<string, string> name = GetNameTuple();
 
-            GenderType gender = Program.GetUserInput<GenderType>(input => (int)input < 0 || (int)input >= (int)Enum.GetNames(typeof(GenderType)).Length,
-                "Input Gender (Male, Female, Undefined): ", "Invalid Gender");
+            GenderType gender = Program.GetUserInput<GenderType>(
+                input => (int)input < 0 || (int)input >= (int)Enum.GetNames(typeof(GenderType)).Length,
+                "Input Gender (Male, Female, Undefined): ", 
+                "Invalid Gender"
+            );
 
-            DateTime dob = Program.GetUserInput<DateTime>(input => input.Date >= DateTime.Today.Date, "Input Date of Birth (xx/xx/xx): ", "Invalid Date of Birth");
+            DateTime dob = Program.GetUserInput<DateTime>(
+                input => input.Date >= DateTime.Today.Date, 
+                "Input Date of Birth (xx/xx/xx): ", 
+                "Invalid Date of Birth"
+            );
 
             if (typeof(T) == typeof(Student))
             {
